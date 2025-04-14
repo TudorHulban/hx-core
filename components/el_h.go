@@ -1,8 +1,8 @@
-package hxprimitives
+package hxcomponents
 
 import (
-	hxcomponents "github.com/TudorHulban/hx-core/components"
 	hxhtml "github.com/TudorHulban/hx-core/html"
+	hxprimitives "github.com/TudorHulban/hx-core/primitives"
 )
 
 type ParamsH struct {
@@ -22,6 +22,10 @@ func H3Raw(params *ParamsH) string {
 	return `<h3 id="` + params.CSSID + `">` + params.Text + `</h3>`
 }
 
+func H4Raw(params *ParamsH) string {
+	return `<h4 id="` + params.CSSID + `">` + params.Text + `</h4>`
+}
+
 func H5Raw(params *ParamsH) string {
 	return `<h5 id="` + params.CSSID + `">` + params.Text + `</h5>`
 }
@@ -30,13 +34,13 @@ func H6Raw(params *ParamsH) string {
 	return `<h6 id="` + params.CSSID + `">` + params.Text + `</h6>`
 }
 
-func H3(params *ParamsH) hxcomponents.Node {
+func H3(params *ParamsH) hxprimitives.Node {
 	return hxhtml.H3(
-		hxcomponents.AttrIDLength(
+		hxprimitives.AttrIDLength(
 			params.CSSID,
 		),
 
-		hxcomponents.Text(
+		hxprimitives.Text(
 			params.Text,
 		),
 	)

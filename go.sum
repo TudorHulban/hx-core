@@ -1,10 +1,16 @@
+github.com/TudorHulban/epochid v0.0.0-20250120130757-e7a27f78ca47 h1:ItOUhEObk6BBoOrDSkekmSpiDOxT8tSaqGhh9uEjBSo=
+github.com/TudorHulban/epochid v0.0.0-20250120130757-e7a27f78ca47/go.mod h1:hcxbLvVE/6UN9hTgI00EpMwg5LYKz9m7xF3jS3ZIVz4=
 github.com/TudorHulban/go-errors v0.0.0-20250328134337-8089e689c00f h1:L1AVDfZANf8l7dPMofRciR1BAqx92Abm0Thwixotf1U=
 github.com/TudorHulban/go-errors v0.0.0-20250328134337-8089e689c00f/go.mod h1:Kgp2ZdTO/L3PJfPam/hyxyreBb1wy+nXCe0+9Xw/M2A=
+github.com/TudorHulban/hx-request v0.0.0-20250325145103-970b7f1487fb h1:0bc+Nb32tiBhYM921YpErq/hN5xmaSwzdYP/4pfhlMk=
+github.com/TudorHulban/hx-request v0.0.0-20250325145103-970b7f1487fb/go.mod h1:Oi1582EUMwuttIRo+ogJTkQHqMYtv6wzyA+0Db4y8C8=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=
 github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

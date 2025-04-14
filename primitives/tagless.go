@@ -1,4 +1,4 @@
-package hxcomponents
+package hxprimitives
 
 var tagless = map[string]struct{}{
 	"area":   {},

@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	hxcomponents "github.com/TudorHulban/hx-core/components"
 	hxhtml "github.com/TudorHulban/hx-core/html"
+	hxprimitives "github.com/TudorHulban/hx-core/primitives"
 )
 
 func TestHowToUse(t *testing.T) {
@@ -21,14 +21,14 @@ func TestHowToUse(t *testing.T) {
 	}
 
 	fragment := hxhtml.Div(
-		hxcomponents.AttrIDLength("idsearch-item"),
-		hxcomponents.AttrWithValue(
+		hxprimitives.AttrIDLength("idsearch-item"),
+		hxprimitives.AttrWithValue(
 			"style",
 			"display: flex; flex-direction: column;",
 		),
 
 		hxhtml.H3(
-			hxcomponents.Text(
+			hxprimitives.Text(
 				fmt.Sprintf(
 					"Hi %s (%d)!",
 					p1.Name,

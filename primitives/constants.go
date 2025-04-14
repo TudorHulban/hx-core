@@ -1,4 +1,4 @@
-package hxcomponents
+package hxprimitives
 
 const (
 	_blank = " "

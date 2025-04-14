@@ -1,4 +1,4 @@
-package hxcomponents
+package hxprimitives
 
 import (
 	"strings"
