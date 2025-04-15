@@ -1,0 +1,21 @@
+.entry-title {
+    word-wrap: break-word;
+}
+
+.has-post-thumbnail {
+    width: 25%;
+}
+
+.post-wrapper {
+    background: #fff;
+    transition: .25s;
+}
+
+.bw-to-color {
+    filter: grayscale(100%);
+    transition: filter 0.3s ease-in-out;
+}
+
+.bw-to-color:hover {
+    filter: grayscale(0%);
+}
