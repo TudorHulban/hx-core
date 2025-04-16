@@ -5,17 +5,26 @@ import (
 	hxprimitives "github.com/TudorHulban/hx-core/primitives"
 )
 
-type ParamsWidgetCard struct {
+type WidgetCardInfo struct {
 	Title string
+	Price string
+
+	ImageSquareSize string
+	ImageSource     string
+
+	ActionEndpoint string
+}
+
+type ParamsWidgetCard struct {
+	WidgetCardInfo
 
 	CurrencySimbol string
 	PriceCaption   string
-	Price          string
 }
 
 func WidgetCard(params *ParamsWidgetCard) hxprimitives.Node {
 	return hxhtml.Div(
-		hxprimitives.AttrClass("has-post-thumbnail"),
+		hxprimitives.AttrClass("has-post-thumbnail bw-to-color"),
 
 		hxhtml.Div(
 			hxprimitives.AttrClass("post-wrapper"),
@@ -24,18 +33,17 @@ func WidgetCard(params *ParamsWidgetCard) hxprimitives.Node {
 				hxprimitives.AttrClass("post-thumbnail"),
 
 				hxhtml.A(
-					hxprimitives.Href("action1"),
+					hxprimitives.Href(params.ActionEndpoint),
 
 					hxhtml.Img(
 						hxprimitives.AttrWithValue("sizes", "auto, (max-width: 920px) 100vw, 920px"),
 						hxprimitives.AttrWithValue("decoding", "async"),
-						hxprimitives.AttrWithValue("height", "220"),
-						hxprimitives.AttrWithValue("alt", ""),
-						hxprimitives.AttrWithValue("srcset", "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-2.jpg 920w, https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-2-300x300.jpg 300w, https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-2-150x150.jpg 150w, https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-2-768x768.jpg 768w"),
+						hxprimitives.AttrWithValue("height", params.ImageSquareSize),
+						hxprimitives.AttrWithValue("width", params.ImageSquareSize),
+						hxprimitives.AttrWithValue("alt", params.Title),
 						hxprimitives.AttrWithValue("loading", "lazy"),
-						hxprimitives.AttrWithValue("width", "220"),
-						hxprimitives.AttrWithValue("src", "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-2.jpg"),
-						hxprimitives.AttrClass("attachment-post-thumbnail bw-to-color"),
+						hxprimitives.AttrWithValue("src", params.ImageSource),
+						hxprimitives.AttrClass("attachment-post-thumbnail"),
 					),
 				),
 			),
@@ -47,7 +55,7 @@ func WidgetCard(params *ParamsWidgetCard) hxprimitives.Node {
 					hxprimitives.AttrClass("entry-title post-title"),
 
 					hxhtml.A(
-						hxprimitives.Href("https://themes.getmotopress.com/bro-barbershop/service/washing-head/"),
+						hxprimitives.Href(params.ActionEndpoint),
 						hxprimitives.Text(params.Title),
 					),
 				),

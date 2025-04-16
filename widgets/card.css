@@ -1,9 +1,9 @@
 .has-post-thumbnail {
-    width: 25%;
+    background-color: blanchedalmond;
+    padding: 15px;
 }
 
 .post-wrapper {
-    background: #dfe2c7;
     transition: .25s;
 }
 
@@ -14,4 +14,8 @@
 
 .bw-to-color:hover {
     filter: grayscale(0%);
+}
+
+.post-title {
+    font-size: 22px;
 }

@@ -13,11 +13,13 @@ import (
 func TestCard(t *testing.T) {
 	fragment := WidgetCard(
 		&ParamsWidgetCard{
-			Title: "Washing Head",
+			WidgetCardInfo: WidgetCardInfo{
+				Title: "Washing Head",
+				Price: "40",
+			},
 
 			CurrencySimbol: "RON",
 			PriceCaption:   "Price",
-			Price:          "40",
 		},
 	)
 
