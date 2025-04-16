@@ -1,13 +1,9 @@
-.entry-title {
-    word-wrap: break-word;
-}
-
 .has-post-thumbnail {
     width: 25%;
 }
 
 .post-wrapper {
-    background: #fff;
+    background: #dfe2c7;
     transition: .25s;
 }
 

@@ -14,6 +14,10 @@ func TestCard(t *testing.T) {
 	fragment := WidgetCard(
 		&ParamsWidgetCard{
 			Title: "Washing Head",
+
+			CurrencySimbol: "RON",
+			PriceCaption:   "Price",
+			Price:          "40",
 		},
 	)
 

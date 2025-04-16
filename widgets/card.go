@@ -7,6 +7,10 @@ import (
 
 type ParamsWidgetCard struct {
 	Title string
+
+	CurrencySimbol string
+	PriceCaption   string
+	Price          string
 }
 
 func WidgetCard(params *ParamsWidgetCard) hxprimitives.Node {
@@ -45,6 +49,26 @@ func WidgetCard(params *ParamsWidgetCard) hxprimitives.Node {
 					hxhtml.A(
 						hxprimitives.Href("https://themes.getmotopress.com/bro-barbershop/service/washing-head/"),
 						hxprimitives.Text(params.Title),
+					),
+				),
+
+				hxhtml.P(
+					hxprimitives.AttrClass("service-price"),
+
+					hxhtml.Span(
+						hxprimitives.AttrClass("price-title"),
+						hxprimitives.Text(params.PriceCaption+":"),
+					),
+
+					hxhtml.Span(
+						hxprimitives.AttrClass("price"),
+
+						hxhtml.Span(
+							hxprimitives.AttrClass("currency"),
+							hxprimitives.Text(params.CurrencySimbol),
+						),
+
+						hxprimitives.Text(params.Price),
 					),
 				),
 			),
