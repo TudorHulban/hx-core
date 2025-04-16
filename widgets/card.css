@@ -4,7 +4,11 @@
     width: fit-content;
 
     .content {
-        max-width: 200px;
+        max-width: 250px;
+    }
+
+    .service-price {
+        margin-bottom: auto;
     }
 }
 

@@ -51,6 +51,26 @@ func WidgetCardHorizontal(params *ParamsWidgetCardHorizontal) hxprimitives.Node 
 		hxhtml.Div(
 			append(
 				[]hxprimitives.Node{
+					hxhtml.P(
+						hxprimitives.AttrClass("service-price"),
+
+						hxhtml.Span(
+							hxprimitives.AttrClass("price-title"),
+							hxprimitives.Text(params.PriceCaption+":"),
+						),
+
+						hxhtml.Span(
+							hxprimitives.AttrClass("price"),
+
+							hxhtml.Span(
+								hxprimitives.AttrClass("currency"),
+								hxprimitives.Text(params.CurrencySimbol),
+							),
+
+							hxprimitives.Text(params.Price),
+						),
+					),
+
 					hxhtml.Div(
 						hxprimitives.AttrClass("content"),
 
