@@ -28,7 +28,7 @@ func TestCards(t *testing.T) {
 
 			CSSFlexGap: "20px",
 
-			Cards: []*WidgetCardInfo{
+			Cards: []*WidgetCardVerticalInfo{
 				{
 					Title: "Washing Head",
 					Price: "49",

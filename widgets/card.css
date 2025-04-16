@@ -1,6 +1,11 @@
 .has-post-thumbnail {
     background-color: blanchedalmond;
     padding: 15px;
+    width: fit-content;
+
+    .content {
+        max-width: 200px;
+    }
 }
 
 .post-wrapper {
@@ -19,3 +24,8 @@
 .post-title {
     font-size: 22px;
 }
+
+.horizontal-line {
+    border-bottom: 1px solid black; 
+    margin: 10px 0; 
+  }

@@ -1,11 +1,12 @@
 package widgets
 
 import (
+	hxcomponents "github.com/TudorHulban/hx-core/components"
 	hxhtml "github.com/TudorHulban/hx-core/html"
 	hxprimitives "github.com/TudorHulban/hx-core/primitives"
 )
 
-type WidgetCardInfo struct {
+type WidgetCardVerticalInfo struct {
 	Title string
 	Price string
 
@@ -15,14 +16,14 @@ type WidgetCardInfo struct {
 	ActionEndpoint string
 }
 
-type ParamsWidgetCard struct {
-	WidgetCardInfo
+type ParamsWidgetCardVertical struct {
+	WidgetCardVerticalInfo
 
 	CurrencySimbol string
 	PriceCaption   string
 }
 
-func WidgetCard(params *ParamsWidgetCard) hxprimitives.Node {
+func WidgetCardVertical(params *ParamsWidgetCardVertical) hxprimitives.Node {
 	return hxhtml.Div(
 		hxprimitives.AttrClass("has-post-thumbnail bw-to-color"),
 
@@ -35,15 +36,12 @@ func WidgetCard(params *ParamsWidgetCard) hxprimitives.Node {
 				hxhtml.A(
 					hxprimitives.Href(params.ActionEndpoint),
 
-					hxhtml.Img(
-						hxprimitives.AttrWithValue("sizes", "auto, (max-width: 920px) 100vw, 920px"),
-						hxprimitives.AttrWithValue("decoding", "async"),
-						hxprimitives.AttrWithValue("height", params.ImageSquareSize),
-						hxprimitives.AttrWithValue("width", params.ImageSquareSize),
-						hxprimitives.AttrWithValue("alt", params.Title),
-						hxprimitives.AttrWithValue("loading", "lazy"),
-						hxprimitives.AttrWithValue("src", params.ImageSource),
-						hxprimitives.AttrClass("attachment-post-thumbnail"),
+					hxcomponents.Img(
+						&hxcomponents.ParamsImage{
+							ImageSquareSize: params.ImageSquareSize,
+							ImageSource:     params.ImageSource,
+							ImageAlt:        params.Title,
+						},
 					),
 				),
 			),

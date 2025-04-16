@@ -1,8 +1,6 @@
 package widgets
 
 import (
-	"fmt"
-
 	hxhelpers "github.com/TudorHulban/hx-core/helpers"
 	hxhtml "github.com/TudorHulban/hx-core/html"
 	hxprimitives "github.com/TudorHulban/hx-core/primitives"
@@ -14,7 +12,7 @@ type ParamsWidgetCards struct {
 
 	CSSFlexGap string
 
-	Cards []*WidgetCardInfo
+	Cards []*WidgetCardVerticalInfo
 }
 
 func WidgetCards(params *ParamsWidgetCards) hxprimitives.Node {
@@ -22,7 +20,7 @@ func WidgetCards(params *ParamsWidgetCards) hxprimitives.Node {
 		append(
 			[]hxprimitives.Node{
 				hxprimitives.AttrCSS(
-					fmt.Sprintf(
+					hxhelpers.Sprintf(
 						"display:flex;flex-direction:row;gap:%s;",
 
 						params.CSSFlexGap,
@@ -33,10 +31,10 @@ func WidgetCards(params *ParamsWidgetCards) hxprimitives.Node {
 			hxhelpers.ForEachValue(
 				params.Cards,
 
-				func(info *WidgetCardInfo) hxprimitives.Node {
-					return WidgetCard(
-						&ParamsWidgetCard{
-							WidgetCardInfo: *info,
+				func(item *WidgetCardVerticalInfo) hxprimitives.Node {
+					return WidgetCardVertical(
+						&ParamsWidgetCardVertical{
+							WidgetCardVerticalInfo: *item,
 
 							CurrencySimbol: params.CurrencySimbol,
 							PriceCaption:   params.PriceCaption,
