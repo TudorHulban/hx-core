@@ -1,3 +1,12 @@
+.services-list-title {
+    text-align: center;
+    padding-bottom: 15px;
+
+    .item-title {
+        font-weight: 500;
+    }
+}
+
 .centered-services-list {
     display: flex;
     justify-content: center;

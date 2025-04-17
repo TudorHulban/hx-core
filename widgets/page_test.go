@@ -36,6 +36,8 @@ func Page() hxprimitives.Node {
 
 		WidgetCards(
 			&ParamsWidgetCards{
+				Title: "Popular Services",
+
 				CurrencySimbol: "RON",
 				PriceCaption:   "Pret",
 
