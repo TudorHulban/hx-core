@@ -10,33 +10,16 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestHorizontalCard(t *testing.T) {
-	fragment := WidgetCardHorizontal(
-		&ParamsWidgetCardHorizontal{
-			WidgetCardHorizontalInfo: WidgetCardHorizontalInfo{
-				Title: "Washing Head",
-				Price: "40",
+func TestHeader(t *testing.T) {
+	fragment := WidgetHeader(
+		&ParamsWidgetHeader{
+			Title: "Washing Head",
 
-				ImageSquareSize: "220",
-				ImageSource:     "https://images.pexels.com/photos/668353/pexels-photo-668353.jpeg",
-
-				Text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam",
-				// Highlights: []*Highlight{
-				// 	{
-				// 		Label: "Time",
-				// 		Text:  "30 min",
-				// 	},
-				// 	{
-				// 		Label: "Equipment",
-				// 		Text:  "Shampoo",
-				// 	},
-				// },
+			ParamsImage: hxcomponents.ParamsImage{
+				ImageSquareSize: "160",
+				ImageAlt:        "Washing Head",
+				ImageSource:     "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/hero-bg-1.jpg",
 			},
-
-			CurrencySimbol: "RON",
-			PriceCaption:   "Pret",
-
-			CSSFlexGap: "20px",
 		},
 	)
 
@@ -57,7 +40,7 @@ func TestHorizontalCard(t *testing.T) {
 			),
 			hxhtml.Link(
 				hxprimitives.Rel("stylesheet"),
-				hxprimitives.Href("card.css"),
+				hxprimitives.Href("header.css"),
 			),
 		},
 

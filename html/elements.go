@@ -45,6 +45,13 @@ func FormWithID(cssID string, children ...hxprimitives.Node) hxprimitives.Node {
 	)
 }
 
+func H1(children ...hxprimitives.Node) hxprimitives.Writer {
+	return hxprimitives.El(
+		"h1",
+		children...,
+	)
+}
+
 func H2(children ...hxprimitives.Node) hxprimitives.Writer {
 	return hxprimitives.El(
 		"h2",

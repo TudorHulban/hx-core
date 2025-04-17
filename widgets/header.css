@@ -1,0 +1,18 @@
+.page-header-info {
+    position: relative;
+    text-align: center;
+
+    .header-images img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .entry-title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+    }
+}

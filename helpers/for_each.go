@@ -18,6 +18,10 @@ type ParamsForEachValueWAddition[T, R any] struct {
 }
 
 func ForEachValueWAddition[T, R any](params *ParamsForEachValueWAddition[T, R]) []R {
+	if len(params.Values) == 0 {
+		return nil
+	}
+
 	result := make([]R, 0, len(params.Values)+1)
 
 	result = append(result, params.Addition())
