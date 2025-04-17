@@ -80,7 +80,7 @@ h5 a:focus,
 h5 a:hover,
 h6 a:focus,
 h6 a:hover {
-	color: #E64A26;
+	color: #681a09;
 	text-decoration: none;
 }
 
@@ -148,59 +148,12 @@ p:last-child {
 	margin-bottom: 0;
 }
 
-dfn,
-cite,
-em,
-i {
-	font-style: italic;
-}
-
-blockquote {
-	margin: 0 1.5em;
-}
-
-address {
-	margin: 0 0 1.5em;
-}
-
-pre {
-	background: #fff;
-	font-family: "Courier 10 Pitch", courier, monospace;
-	line-height: 1.6;
-	margin-bottom: 1.6em;
-	overflow: auto;
-	padding: 1.6em;
-	border: 1px solid #BEC0B9;
-}
-
-code,
-kbd,
-var {
-	font-family: monaco, consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
-}
-
-abbr,
-acronym {
-	cursor: help;
-	border-bottom: 1px dotted #666;
-}
-
-mark,
-ins {
-	text-decoration: none;
-	background: #fff9c0;
-}
-
-big {
-	font-size: 125%;
-}
-
 /*
 Base - Elements
 */
 
 body {
-	background: #5e605c;
+	background: #e6e9e4;
 }
 
 body:before {

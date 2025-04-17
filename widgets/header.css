@@ -1,6 +1,8 @@
 .page-header-info {
     position: relative;
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
 
     .header-images img {
         width: 100%;

@@ -21,16 +21,16 @@ func TestHorizontalCard(t *testing.T) {
 				ImageSource:     "https://images.pexels.com/photos/668353/pexels-photo-668353.jpeg",
 
 				Text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam",
-				// Highlights: []*Highlight{
-				// 	{
-				// 		Label: "Time",
-				// 		Text:  "30 min",
-				// 	},
-				// 	{
-				// 		Label: "Equipment",
-				// 		Text:  "Shampoo",
-				// 	},
-				// },
+				Highlights: []*Highlight{
+					{
+						Label: "Time",
+						Text:  "30 min",
+					},
+					{
+						Label: "Equipment",
+						Text:  "Shampoo",
+					},
+				},
 			},
 
 			CurrencySimbol: "RON",

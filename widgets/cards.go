@@ -17,31 +17,41 @@ type ParamsWidgetCards struct {
 
 func WidgetCards(params *ParamsWidgetCards) hxprimitives.Node {
 	return hxhtml.Div(
-		append(
-			[]hxprimitives.Node{
-				hxprimitives.AttrCSS(
-					hxhelpers.Sprintf(
-						"display:flex;flex-direction:row;gap:%s;",
+		hxprimitives.AttrClass(
+			"centered-services-list",
+		),
 
-						params.CSSFlexGap,
+		hxhtml.Div(
+			append(
+				[]hxprimitives.Node{
+					hxprimitives.AttrCSS(
+						hxhelpers.Sprintf(
+							"display:flex;flex-direction:row;gap:%s;",
+
+							params.CSSFlexGap,
+						),
 					),
-				),
-			},
 
-			hxhelpers.ForEachValue(
-				params.Cards,
-
-				func(item *WidgetCardVerticalInfo) hxprimitives.Node {
-					return WidgetCardVertical(
-						&ParamsWidgetCardVertical{
-							WidgetCardVerticalInfo: *item,
-
-							CurrencySimbol: params.CurrencySimbol,
-							PriceCaption:   params.PriceCaption,
-						},
-					)
+					hxprimitives.AttrClass(
+						"services-list",
+					),
 				},
+
+				hxhelpers.ForEachValue(
+					params.Cards,
+
+					func(item *WidgetCardVerticalInfo) hxprimitives.Node {
+						return WidgetCardVertical(
+							&ParamsWidgetCardVertical{
+								WidgetCardVerticalInfo: *item,
+
+								CurrencySimbol: params.CurrencySimbol,
+								PriceCaption:   params.PriceCaption,
+							},
+						)
+					},
+				)...,
 			)...,
-		)...,
+		),
 	)
 }
