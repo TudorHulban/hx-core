@@ -13,6 +13,18 @@ import (
 func TestHero(t *testing.T) {
 	fragment := WidgetHero(
 		&ParamsWidgetHero{
+			Title:   "Expert cuts and classic styles",
+			Message: "experience the finest grooming services in town. from traditional haircuts to modern styling, we've got you covered.",
+
+			ButtonPrimaryInfo: hxcomponents.ParamsElementARef{
+				CSSClass: "button primary",
+				Caption:  "Book appointment",
+			},
+			ButtonSecondaryInfo: hxcomponents.ParamsElementARef{
+				CSSClass: "button secondary",
+				Caption:  "View services",
+			},
+
 			ParamsImage: hxcomponents.ParamsImage{
 				ImageSquareSize: "400",
 				ImageAlt:        "Barber Shop",

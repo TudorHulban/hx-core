@@ -6,9 +6,11 @@ import (
 )
 
 type ParamsElementARef struct {
-	Route    string
-	TicketID string
-	Label    string
+	CSSClass string
+
+	Route   string
+	ItemID  string
+	Caption string
 
 	TargetsMultiswap string
 	TargetsSend      string
@@ -16,18 +18,42 @@ type ParamsElementARef struct {
 
 func ElementARef(params *ParamsElementARef) string {
 	return hxhelpers.Sprintf(
-		`<a href="#" %s="%s/%s" %s="%s" %s="%s">%s</a>`,
+		`<a%shref="#" %s="%s" %s="%s"%s>%s</a>`,
+
+		hxhelpers.Ternary(
+			len(params.CSSClass) > 0,
+
+			hxhelpers.Sprintf(
+				` class="%s" `,
+				params.CSSClass,
+			),
+			"",
+		),
 
 		hxcore.HXPOST,
-		params.Route,
-		params.TicketID,
 
+		hxhelpers.Ternary(
+			len(params.ItemID) > 0,
+
+			params.Route+"/"+params.ItemID,
+			params.Route,
+		),
+
+		// no ternary for swap as not probable.
 		hxcore.HXSwap,
 		params.TargetsMultiswap,
 
-		hxcore.HXSend,
-		params.TargetsSend,
+		hxhelpers.Ternary(
+			len(params.TargetsSend) > 0,
 
-		params.Label,
+			hxhelpers.Sprintf(
+				` %s="%s"`,
+				hxcore.HXSend,
+				params.TargetsSend,
+			),
+			"",
+		),
+
+		params.Caption,
 	)
 }

@@ -1,9 +1,9 @@
 .hero {
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 40px;
-    background-color: #f8f8f8;
+    margin-bottom: 20px;
+    background-color: #d0cfaa;  
 }
 
 .hero-content {
@@ -19,7 +19,7 @@
 
 .hero-content p {
     font-size: 1.1em;
-    color: #666;
+    color: #12120c;
     margin-bottom: 20px;
 }
 
@@ -37,8 +37,8 @@
 }
 
 .hero-buttons .primary {
-    background-color: #007bff;
-    color: white;
+    background-color: #e6ce39;
+    color: black;
 }
 
 .hero-buttons .secondary {

@@ -7,6 +7,12 @@ import (
 )
 
 type ParamsWidgetHero struct {
+	Title   string
+	Message string
+
+	ButtonPrimaryInfo   hxcomponents.ParamsElementARef
+	ButtonSecondaryInfo hxcomponents.ParamsElementARef
+
 	hxcomponents.ParamsImage
 }
 
@@ -23,13 +29,13 @@ func WidgetHero(params *ParamsWidgetHero) hxprimitives.Node {
 
 			hxhtml.H1(
 				hxprimitives.Text(
-					"Expert cuts and classic styles",
+					params.Title,
 				),
 			),
 
 			hxhtml.P(
 				hxprimitives.Text(
-					"experience the finest grooming services in town. from traditional haircuts to modern styling, we've got you covered.",
+					params.Message,
 				),
 			),
 
@@ -38,23 +44,15 @@ func WidgetHero(params *ParamsWidgetHero) hxprimitives.Node {
 					"hero-buttons",
 				),
 
-				hxhtml.A(
-					hxprimitives.AttrClass(
-						"button primary",
-					),
-
-					hxprimitives.Text(
-						"Book appointment",
+				hxprimitives.Raw(
+					hxcomponents.ElementARef(
+						&params.ButtonPrimaryInfo,
 					),
 				),
 
-				hxhtml.A(
-					hxprimitives.AttrClass(
-						"button secondary",
-					),
-
-					hxprimitives.Text(
-						"View services",
+				hxprimitives.Raw(
+					hxcomponents.ElementARef(
+						&params.ButtonSecondaryInfo,
 					),
 				),
 			),
