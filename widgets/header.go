@@ -7,7 +7,8 @@ import (
 )
 
 type ParamsWidgetHeader struct {
-	Title string
+	Title             string
+	BreadcrumbCaption string
 
 	hxcomponents.ParamsImage
 }
@@ -27,6 +28,16 @@ func WidgetHeader(params *ParamsWidgetHeader) hxprimitives.Node {
 			hxhtml.Img(
 				hxprimitives.AttrWithValue("src", params.ImageSource),
 				hxprimitives.AttrWithValue("alt", params.ImageAlt),
+			),
+		),
+
+		hxhtml.Div(
+			hxprimitives.AttrClass("header-breadcrumb"),
+
+			hxhtml.Span(
+				hxprimitives.Text(
+					params.BreadcrumbCaption,
+				),
 			),
 		),
 	)

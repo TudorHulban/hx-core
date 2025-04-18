@@ -13,7 +13,7 @@ import (
 func TestCards(t *testing.T) {
 	img1Src := "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-1.jpg"
 	img2Src := "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-2.jpg"
-	img3Src := "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-3.jpg"
+	img3Src := "https://images.pexels.com/photos/897262/pexels-photo-897262.jpeg"
 	img4Src := "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/service-4.jpg"
 
 	action1 := "https://themes.getmotopress.com/bro-barbershop/service/washing-head/"

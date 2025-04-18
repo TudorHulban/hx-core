@@ -22,17 +22,17 @@ func Page() hxprimitives.Node {
 	action4 := "https://themes.getmotopress.com/bro-barbershop/service/mens-haircut/"
 
 	return hxhtml.Div(
-		// WidgetHeader(
-		// 	&ParamsWidgetHeader{
-		// 		Title: "Barber Shop",
+		WidgetHeader(
+			&ParamsWidgetHeader{
+				Title: "Barber Shop",
 
-		// 		ParamsImage: hxcomponents.ParamsImage{
-		// 			ImageSquareSize: "160",
-		// 			ImageAlt:        "Barber SHop",
-		// 			ImageSource:     "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/hero-bg-1.jpg",
-		// 		},
-		// 	},
-		// ),
+				ParamsImage: hxcomponents.ParamsImage{
+					ImageSquareSize: "160",
+					ImageAlt:        "Barber SHop",
+					ImageSource:     "https://themes.getmotopress.com/bro-barbershop/wp-content/uploads/sites/64/2024/01/hero-bg-1.jpg",
+				},
+			},
+		),
 
 		WidgetHero(
 			&ParamsWidgetHero{

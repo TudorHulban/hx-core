@@ -13,7 +13,8 @@ import (
 func TestHeader(t *testing.T) {
 	fragment := WidgetHeader(
 		&ParamsWidgetHeader{
-			Title: "Washing Head",
+			Title:             "Washing Head",
+			BreadcrumbCaption: "Barbershop/Washing Head",
 
 			ParamsImage: hxcomponents.ParamsImage{
 				ImageSquareSize: "160",
