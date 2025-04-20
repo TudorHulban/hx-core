@@ -17,8 +17,17 @@ type ParamsElementARef struct {
 }
 
 func ElementARef(params *ParamsElementARef) string {
+	if len(params.TargetsMultiswap) == 0 {
+		return hxhelpers.Sprintf(
+			`<a href="%s">%s</a>`,
+
+			params.Route,
+			params.Caption,
+		)
+	}
+
 	return hxhelpers.Sprintf(
-		`<a%shref="#" %s="%s" %s="%s"%s>%s</a>`,
+		`<a%s href="#" %s="%s" %s="%s"%s>%s</a>`,
 
 		hxhelpers.Ternary(
 			len(params.CSSClass) > 0,
@@ -39,7 +48,6 @@ func ElementARef(params *ParamsElementARef) string {
 			params.Route,
 		),
 
-		// no ternary for swap as not probable.
 		hxcore.HXSwap,
 		params.TargetsMultiswap,
 
