@@ -92,3 +92,5 @@ func WidgetArticleCard(params *ParamsWidgetArticleCard) hxprimitives.Node {
 		),
 	)
 }
+
+func CSSArticleCard() {}
