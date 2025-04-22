@@ -64,7 +64,7 @@ func TestOneElementCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"body{}\n@media (min-width: 768px) {\nbody{margin: 0;}\nbody{padding: 0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}",
+			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{margin: 0;}\nbody{padding: 0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}",
 		},
 	}
 
@@ -149,6 +149,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 			"4. CSS mixt many inflexion points",
 			func() CSSElement {
 				return CSSElement{
+					CSSAllMedias: "body{}",
 					CSSResponsive: []CSSMedia{
 						{1900, "body{margin: 15;}"},
 						{768, "body{margin:0;}"},
@@ -163,7 +164,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"@media (min-width: 768px) {\nbody{margin:0;}\nbody{padding:0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}\n@media (min-width: 1900px) {\nbody{margin: 15;}\n}",
+			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{margin:0;}\nbody{padding:0;}\n}\n@media (min-width: 1366px) and (max-width: 1899px) {\nbody{margin: 5;}\n}\n@media (min-width: 1900px) {\nbody{margin: 15;}\n}",
 		},
 	}
 

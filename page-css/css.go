@@ -2,6 +2,7 @@ package pagecss
 
 import (
 	"slices"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -23,31 +24,19 @@ type CSSPage map[*CSS]bool
 func (page CSSPage) GetCSS() string {
 	cssCommon := make([]string, 0)
 	cssResponsiveMap := make(map[uint16][]string)
-	inflexionPoints := []uint16{}
+	inflexionPoints := make([]uint16, 0)
 
 	for cssFunc := range page {
 		element := (*cssFunc)()
 
 		if element.CSSAllMedias != "" {
-			cssCommon = append(
-				cssCommon,
-				element.CSSAllMedias,
-			)
+			cssCommon = append(cssCommon, element.CSSAllMedias)
 		}
 
 		for _, media := range element.CSSResponsive {
-			cssResponsiveMap[media.InflexionPointPX] = append(
-				cssResponsiveMap[media.InflexionPointPX],
-				media.CSS,
-			)
+			cssResponsiveMap[media.InflexionPointPX] = append(cssResponsiveMap[media.InflexionPointPX], media.CSS)
 
-			var found bool
-
-			if slices.Contains(inflexionPoints, media.InflexionPointPX) {
-				found = true
-			}
-
-			if !found {
+			if !slices.Contains(inflexionPoints, media.InflexionPointPX) {
 				inflexionPoints = append(inflexionPoints, media.InflexionPointPX)
 			}
 		}
@@ -55,15 +44,20 @@ func (page CSSPage) GetCSS() string {
 
 	slices.Sort(inflexionPoints)
 
-	cssResponsive := []string{}
+	cssResponsive := make([]string, 0)
 
-	for _, point := range inflexionPoints {
-		css := strings.Join(cssResponsiveMap[point], "\n")
+	for i, point := range inflexionPoints {
+		cssRules := cssResponsiveMap[point]
+		sort.Strings(cssRules)
+		css := strings.Join(cssRules, "\n")
+		mediaQuery := "@media (min-width: " + strconv.Itoa(int(point)) + "px)"
 
-		cssResponsive = append(
-			cssResponsive,
-			"@media (min-width: "+strconv.Itoa(int(point))+"px) {\n"+css+"\n}",
-		)
+		if i < len(inflexionPoints)-1 {
+			nextPoint := inflexionPoints[i+1]
+			mediaQuery = mediaQuery + " and (max-width: " + strconv.Itoa(int(nextPoint)-1) + "px)"
+		}
+
+		cssResponsive = append(cssResponsive, mediaQuery+" {\n"+css+"\n}")
 	}
 
 	allCSS := strings.Join(cssCommon, "\n")
@@ -72,7 +66,6 @@ func (page CSSPage) GetCSS() string {
 		if allCSS != "" {
 			allCSS = allCSS + "\n"
 		}
-
 		allCSS = allCSS + strings.Join(cssResponsive, "\n")
 	}
 
