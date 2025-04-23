@@ -8,8 +8,8 @@ import (
 )
 
 type CSSMedia struct {
-	InflexionPointPX uint16
 	CSS              string
+	InflexionPointPX uint16
 }
 
 type CSSElement struct {

@@ -34,7 +34,10 @@ func TestOneElementCSSPage(t *testing.T) {
 			func() CSSElement {
 				return CSSElement{
 					CSSResponsive: []CSSMedia{
-						{768, "body{}"},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{}",
+						},
 					},
 				}
 			},
@@ -46,7 +49,10 @@ func TestOneElementCSSPage(t *testing.T) {
 				return CSSElement{
 					CSSAllMedias: "body{}",
 					CSSResponsive: []CSSMedia{
-						{768, "body{margin: 0;}"},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{margin: 0;}",
+						},
 					},
 				}
 			},
@@ -58,9 +64,18 @@ func TestOneElementCSSPage(t *testing.T) {
 				return CSSElement{
 					CSSAllMedias: "body{}",
 					CSSResponsive: []CSSMedia{
-						{768, "body{margin: 0;}"},
-						{1366, "body{margin: 5;}"},
-						{768, "body{padding: 0;}"},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{margin: 0;}",
+						},
+						{
+							InflexionPointPX: 1366,
+							CSS:              "body{margin: 5;}",
+						},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{padding: 0;}",
+						},
 					},
 				}
 			},
@@ -121,7 +136,10 @@ func TestTwoElementsCSSPage(t *testing.T) {
 			func() CSSElement {
 				return CSSElement{
 					CSSResponsive: []CSSMedia{
-						{768, "body{}"},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{}",
+						},
 					},
 				}
 			},
@@ -132,14 +150,20 @@ func TestTwoElementsCSSPage(t *testing.T) {
 			func() CSSElement {
 				return CSSElement{
 					CSSResponsive: []CSSMedia{
-						{768, "body{margin:0;}"},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{margin:0;}",
+						},
 					},
 				}
 			},
 			func() CSSElement {
 				return CSSElement{
 					CSSResponsive: []CSSMedia{
-						{768, "body{padding:0}"},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{padding:0}",
+						},
 					},
 				}
 			},
@@ -151,16 +175,28 @@ func TestTwoElementsCSSPage(t *testing.T) {
 				return CSSElement{
 					CSSAllMedias: "body{}",
 					CSSResponsive: []CSSMedia{
-						{1900, "body{margin: 15;}"},
-						{768, "body{margin:0;}"},
+						{
+							InflexionPointPX: 1900,
+							CSS:              "body{margin: 15;}",
+						},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{margin:0;}",
+						},
 					},
 				}
 			},
 			func() CSSElement {
 				return CSSElement{
 					CSSResponsive: []CSSMedia{
-						{768, "body{padding:0;}"},
-						{1366, "body{margin: 5;}"},
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{padding:0;}",
+						},
+						{
+							InflexionPointPX: 1366,
+							CSS:              "body{margin: 5;}",
+						},
 					},
 				}
 			},

@@ -10,8 +10,8 @@ import (
 )
 
 type ArticleMeta struct {
-	LastUpdate     time.Time
 	Author         string
+	LastUpdate     time.Time
 	NumberComments uint16
 }
 
