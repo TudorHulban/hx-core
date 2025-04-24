@@ -14,6 +14,8 @@ import (
 func TestWidgetInputDate(t *testing.T) {
 	fragment := WidgetInputDate(
 		&ParamsWidgetInputDate{
+			CSSID: "schedule",
+
 			DateValue:   time.Now(),
 			HowManyDays: 3,
 		},
@@ -36,12 +38,17 @@ func TestWidgetInputDate(t *testing.T) {
 			),
 			hxhtml.Link(
 				hxprimitives.Rel("stylesheet"),
+				hxprimitives.Href("https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"),
+			),
+			hxhtml.Link(
+				hxprimitives.Rel("stylesheet"),
 				hxprimitives.Href("input_date.css"),
 			),
 		},
 
 		Body: []hxprimitives.Node{
-			fragment,
+			fragment.LinkJavascript,
+			fragment.HTML,
 		},
 	}
 
