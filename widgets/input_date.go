@@ -27,7 +27,7 @@ func WidgetInputDate(params *ParamsWidgetInputDate) *ResponseWidgetInputDate {
 
 			hxprimitives.Raw(
 				hxhelpers.Sprintf(
-					`<input type="text" id="%s" value="%s" min="%s" max="%s" class="flatpickr-input"/>`,
+					`<input class="flatpickr-input" type="text" id="%s" value="%s" min="%s" max="%s"/>`,
 
 					params.CSSID,
 					params.DateValue.Format("2006-01-02"),
@@ -44,6 +44,7 @@ func WidgetInputDate(params *ParamsWidgetInputDate) *ResponseWidgetInputDate {
 					if (inputElement) {
 							flatpickr(inputElement, {
 								dateFormat: "Y-m-d",
+								inline: true,
 								defaultDate: inputElement.value,
 								minDate: inputElement.getAttribute('min'),
 								maxDate: inputElement.getAttribute('max')

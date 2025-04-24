@@ -42,6 +42,10 @@ func TestWidgetInputDate(t *testing.T) {
 			),
 			hxhtml.Link(
 				hxprimitives.Rel("stylesheet"),
+				hxprimitives.Href("https://npmcdn.com/flatpickr/dist/themes/dark.css"),
+			),
+			hxhtml.Link(
+				hxprimitives.Rel("stylesheet"),
 				hxprimitives.Href("input_date.css"),
 			),
 		},

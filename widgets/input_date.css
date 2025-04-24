@@ -1,4 +1,8 @@
 .input-date {
     width: fit-content;
-    background-color: black;
+}
+
+.flatpickr-input {
+    background-color: #3f4458;
+    color: azure;
 }
