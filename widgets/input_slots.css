@@ -1,0 +1,11 @@
+.hours-grid {
+    width: 40%;
+}
+
+.hours-row {
+    display: flex;
+}
+
+.time-slot {
+    flex-grow: 1;
+}
