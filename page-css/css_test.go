@@ -15,15 +15,15 @@ func TestOneElementCSSPage(t *testing.T) {
 	}{
 		{
 			"1. CSS empty",
-			func() CSSElement {
-				return CSSElement{}
+			func() *CSSElement {
+				return &CSSElement{}
 			},
 			"",
 		},
 		{
 			"2. CSS common only",
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSAllMedias: "body{}",
 				}
 			},
@@ -31,8 +31,8 @@ func TestOneElementCSSPage(t *testing.T) {
 		},
 		{
 			"3. CSS responsive only",
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,
@@ -45,8 +45,8 @@ func TestOneElementCSSPage(t *testing.T) {
 		},
 		{
 			"4. CSS common and responsive",
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSAllMedias: "body{}",
 					CSSResponsive: []CSSMedia{
 						{
@@ -60,8 +60,8 @@ func TestOneElementCSSPage(t *testing.T) {
 		},
 		{
 			"5. Multiple inflexion points",
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSAllMedias: "body{}",
 					CSSResponsive: []CSSMedia{
 						{
@@ -116,11 +116,11 @@ func TestTwoElementsCSSPage(t *testing.T) {
 	}{
 		{
 			"1. One CSS empty",
-			func() CSSElement {
-				return CSSElement{}
+			func() *CSSElement {
+				return &CSSElement{}
 			},
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSAllMedias: "body{}",
 				}
 			},
@@ -128,13 +128,13 @@ func TestTwoElementsCSSPage(t *testing.T) {
 		},
 		{
 			"2. CSS common and responsive",
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSAllMedias: "body{}",
 				}
 			},
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,
@@ -147,8 +147,8 @@ func TestTwoElementsCSSPage(t *testing.T) {
 		},
 		{
 			"3. CSS mixt with same inflexion point",
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,
@@ -157,8 +157,8 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					},
 				}
 			},
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,
@@ -171,8 +171,8 @@ func TestTwoElementsCSSPage(t *testing.T) {
 		},
 		{
 			"4. CSS mixt many inflexion points",
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSAllMedias: "body{}",
 					CSSResponsive: []CSSMedia{
 						{
@@ -186,8 +186,8 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					},
 				}
 			},
-			func() CSSElement {
-				return CSSElement{
+			func() *CSSElement {
+				return &CSSElement{
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,

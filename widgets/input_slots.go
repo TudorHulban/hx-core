@@ -3,8 +3,15 @@ package widgets
 import (
 	hxhelpers "github.com/TudorHulban/hx-core/helpers"
 	hxhtml "github.com/TudorHulban/hx-core/html"
+	pagecss "github.com/TudorHulban/hx-core/page-css"
 	hxprimitives "github.com/TudorHulban/hx-core/primitives"
 )
+
+type InfoSlot struct {
+	SlotID     int64
+	ResourceID int64
+	Caption    string
+}
 
 func WidgetSlots(slotsCaptions []string, numberColumns uint8) hxprimitives.Node {
 	element := func(caption string) hxprimitives.Node {
@@ -60,4 +67,22 @@ func WidgetSlots(slotsCaptions []string, numberColumns uint8) hxprimitives.Node 
 			rows...,
 		)...,
 	)
+}
+
+func CSSWidgetSlots() *pagecss.CSSElement {
+	return &pagecss.CSSElement{
+		CSSAllMedias: `
+		.hours-grid {
+    	width: 40%;
+		}
+
+		.hours-row {
+    	display: flex;
+		}
+
+		.time-slot {
+    	flex-grow: 1;
+		}
+		`,
+	}
 }

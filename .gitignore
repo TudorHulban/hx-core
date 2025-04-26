@@ -3,3 +3,4 @@ __debug*
 *.html
 .local*.json
 test-output.json
+generated*.css

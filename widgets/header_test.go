@@ -30,6 +30,8 @@ func TestHeader(t *testing.T) {
 	defer writer.Close()
 
 	page := hxcomponents.Page{
+		Title: t.Name(),
+
 		Head: []hxprimitives.Node{
 			hxhtml.Link(
 				hxprimitives.Rel("stylesheet"),

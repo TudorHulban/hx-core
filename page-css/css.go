@@ -1,6 +1,7 @@
 package pagecss
 
 import (
+	"io"
 	"slices"
 	"sort"
 	"strconv"
@@ -17,9 +18,25 @@ type CSSElement struct {
 	CSSResponsive []CSSMedia
 }
 
-type CSS func() CSSElement
+type CSS func() *CSSElement
 
 type CSSPage map[*CSS]bool
+
+func NewCSSPage(css ...func() *CSSElement) CSSPage {
+	var result CSSPage = map[*CSS]bool{}
+
+	for _, f := range css {
+		var buf CSS = f
+
+		if _, exists := result[&buf]; exists {
+			continue
+		}
+
+		result[&buf] = true
+	}
+
+	return result
+}
 
 func (page CSSPage) GetCSS() string {
 	cssCommon := make([]string, 0)
@@ -70,4 +87,10 @@ func (page CSSPage) GetCSS() string {
 	}
 
 	return allCSS
+}
+
+func (page CSSPage) GetCSSTo(w io.Writer) (int, error) {
+	return w.Write(
+		[]byte(page.GetCSS()),
+	)
 }

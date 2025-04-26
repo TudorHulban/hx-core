@@ -6,6 +6,7 @@ import (
 
 	hxcomponents "github.com/TudorHulban/hx-core/components"
 	hxhtml "github.com/TudorHulban/hx-core/html"
+	pagecss "github.com/TudorHulban/hx-core/page-css"
 	hxprimitives "github.com/TudorHulban/hx-core/primitives"
 	"github.com/stretchr/testify/require"
 )
@@ -21,22 +22,13 @@ func TestSlots(t *testing.T) {
 		2,
 	)
 
-	writer, errWriter := getFileWriter(t.Name() + ".html")
-	require.NoError(t, errWriter)
-
-	defer writer.Close()
-
 	page := hxcomponents.Page{
 		Title: t.Name(),
 
 		Head: []hxprimitives.Node{
 			hxhtml.Link(
 				hxprimitives.Rel("stylesheet"),
-				hxprimitives.Href("css_base.css"),
-			),
-			hxhtml.Link(
-				hxprimitives.Rel("stylesheet"),
-				hxprimitives.Href("css_site.css"),
+				hxprimitives.Href("generated.css"),
 			),
 			hxhtml.Link(
 				hxprimitives.Rel("stylesheet"),
@@ -46,10 +38,6 @@ func TestSlots(t *testing.T) {
 				hxprimitives.Rel("stylesheet"),
 				hxprimitives.Href("https://npmcdn.com/flatpickr/dist/themes/dark.css"),
 			),
-			hxhtml.Link(
-				hxprimitives.Rel("stylesheet"),
-				hxprimitives.Href("input_slots.css"),
-			),
 		},
 
 		Body: []hxprimitives.Node{
@@ -57,7 +45,25 @@ func TestSlots(t *testing.T) {
 		},
 	}
 
+	writerCSS, errWriterCSS := getFileWriter("generated.css")
+	require.NoError(t, errWriterCSS)
+
+	defer writerCSS.Close()
+
+	cssPage := pagecss.NewCSSPage(
+		CSSBase,
+		CSSSite,
+		CSSWidgetSlots,
+	)
+
+	cssPage.GetCSSTo(writerCSS)
+
+	writerHTML, errWriterHTML := getFileWriter(t.Name() + ".html")
+	require.NoError(t, errWriterHTML)
+
+	defer writerHTML.Close()
+
 	fmt.Println(
-		page.Build().Render(writer),
+		page.Build().Render(writerHTML),
 	)
 }
