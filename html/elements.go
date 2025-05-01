@@ -73,6 +73,20 @@ func H4(children ...hxprimitives.Node) hxprimitives.Writer {
 	)
 }
 
+func H5(children ...hxprimitives.Node) hxprimitives.Writer {
+	return hxprimitives.El(
+		"h5",
+		children...,
+	)
+}
+
+func H6(children ...hxprimitives.Node) hxprimitives.Writer {
+	return hxprimitives.El(
+		"h6",
+		children...,
+	)
+}
+
 func Img(children ...hxprimitives.Node) hxprimitives.Node {
 	return hxprimitives.El(
 		"img",
