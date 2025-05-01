@@ -180,3 +180,38 @@ func Src(source string) attribute {
 		source,
 	)
 }
+
+func Action(action string) attribute {
+	return AttrWithValue(
+		"action",
+		action,
+	)
+}
+
+func ActionLength(action string) attribute {
+	if len(action) > 0 {
+		return AttrWithValue(
+			"action",
+			action,
+		)
+	}
+
+	return AttrWithValue(
+		"action",
+		"#",
+	)
+}
+
+func Method(method string) attribute {
+	return AttrWithValue(
+		"method",
+		method,
+	)
+}
+
+func AutocompleteOff() attribute {
+	return AttrWithValue(
+		"autocomplete",
+		"off",
+	)
+}
