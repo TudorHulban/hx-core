@@ -12,7 +12,7 @@ type ParamsNewFormThreeContainers struct {
 
 	IDDivEnclosing    string
 	IDForm            string
-	IDDivContainers   string
+	IDDivContainers   string // link media queries to this ID.
 	IDContainerLeft   string
 	IDContainerMiddle string
 	IDContainerRight  string
@@ -28,30 +28,34 @@ func NewFormThreeContainers(params *ParamsNewFormThreeContainers) hxprimitives.N
 	return hxhtml.Div(
 		hxprimitives.AttrIDLength(params.IDDivEnclosing),
 
-		hxhtml.Div(
-			hxprimitives.AttrCSS(
-				"display: flex;",
-			),
+		hxprimitives.If(
+			len(params.SymbolEntry) > 0 || len(params.TextForm) > 0,
 
-			hxprimitives.If(
-				len(params.SymbolEntry) > 0,
+			hxhtml.Div(
+				hxprimitives.AttrCSS(
+					"display: flex;",
+				),
 
-				hxhtml.Span(
-					hxprimitives.AttrClass("material-symbols-outlined"),
-					hxprimitives.Text(
-						params.SymbolEntry,
+				hxprimitives.If(
+					len(params.SymbolEntry) > 0,
+
+					hxhtml.Span(
+						hxprimitives.AttrClass("material-symbols-outlined"),
+						hxprimitives.Text(
+							params.SymbolEntry,
+						),
 					),
 				),
-			),
 
-			hxprimitives.If(
-				len(params.TextForm) > 0,
+				hxprimitives.If(
+					len(params.TextForm) > 0,
 
-				H3(
-					&ParamsH{
-						Text:  params.TextForm,
-						CSSID: params.CSSIDTextForm,
-					},
+					H3(
+						&ParamsH{
+							Text:  params.TextForm,
+							CSSID: params.CSSIDTextForm,
+						},
+					),
 				),
 			),
 		),
@@ -91,13 +95,17 @@ func NewFormThreeContainers(params *ParamsNewFormThreeContainers) hxprimitives.N
 					),
 				},
 
-				hxhtml.Div(
-					append(
-						[]hxprimitives.Node{
-							hxprimitives.AttrCSS(`display:flex;width:100%;flex-wrap:nowrap;gap:10px;`),
-						},
-						params.Buttons...,
-					)...,
+				hxprimitives.If(
+					len(params.Buttons) > 0,
+
+					hxhtml.Div(
+						append(
+							[]hxprimitives.Node{
+								hxprimitives.AttrCSS(`display:flex;width:100%;flex-wrap:nowrap;gap:10px;`),
+							},
+							params.Buttons...,
+						)...,
+					),
 				),
 			)...,
 		),
