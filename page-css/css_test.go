@@ -36,12 +36,12 @@ func TestOneElementCSSPage(t *testing.T) {
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,
-							CSS:              "body{}",
+							CSS:              "body{margin:0;}",
 						},
 					},
 				}
 			},
-			"@media (min-width: 768px) {\nbody{}\n}",
+			"@media (min-width: 768px) {\nbody{margin:0;}\n}",
 		},
 		{
 			"4. CSS common and responsive",
@@ -196,8 +196,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{margin:0;}\nbody{padding:0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}",
-		},
+			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\nbody{margin:0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}"},
 		{
 			"5. CSS mixt with one higher inflexion point",
 			func() *CSSElement {
