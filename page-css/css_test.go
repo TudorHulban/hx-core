@@ -170,7 +170,64 @@ func TestTwoElementsCSSPage(t *testing.T) {
 			"@media (min-width: 768px) {\nbody{margin:0;}\nbody{padding:0}\n}",
 		},
 		{
-			"4. CSS mixt many inflexion points",
+			"4. CSS mixt with one lower inflexion point",
+			func() *CSSElement {
+				return &CSSElement{
+					CSSAllMedias: "body{}",
+					CSSResponsive: []CSSMedia{
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{margin:0;}",
+						},
+					},
+				}
+			},
+			func() *CSSElement {
+				return &CSSElement{
+					CSSResponsive: []CSSMedia{
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{padding:0;}",
+						},
+						{
+							InflexionPointPX: 1366,
+							CSS:              "body{margin: 5;}",
+						},
+					},
+				}
+			},
+			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{margin:0;}\nbody{padding:0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}",
+		},
+		{
+			"5. CSS mixt with one higher inflexion point",
+			func() *CSSElement {
+				return &CSSElement{
+					CSSAllMedias: "body{}",
+					CSSResponsive: []CSSMedia{
+						{
+							InflexionPointPX: 1366,
+							CSS:              "body{margin:0;}",
+						},
+					},
+				}
+			},
+			func() *CSSElement {
+				return &CSSElement{
+					CSSResponsive: []CSSMedia{
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{padding:0;}",
+						},
+						{
+							InflexionPointPX: 1366,
+							CSS:              "body{margin: 5;}",
+						},
+					},
+				}
+			},
+			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\n}\n@media (min-width: 1366px) {\nbody{margin:0;}\nbody{margin: 5;}\n}"},
+		{
+			"6. CSS mixt many inflexion points",
 			func() *CSSElement {
 				return &CSSElement{
 					CSSAllMedias: "body{}",

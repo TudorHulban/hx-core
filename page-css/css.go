@@ -51,10 +51,16 @@ func (page CSSPage) GetCSS() string {
 		}
 
 		for _, media := range element.CSSResponsive {
-			cssResponsiveMap[media.InflexionPointPX] = append(cssResponsiveMap[media.InflexionPointPX], media.CSS)
+			cssResponsiveMap[media.InflexionPointPX] = append(
+				cssResponsiveMap[media.InflexionPointPX],
+				media.CSS,
+			)
 
 			if !slices.Contains(inflexionPoints, media.InflexionPointPX) {
-				inflexionPoints = append(inflexionPoints, media.InflexionPointPX)
+				inflexionPoints = append(
+					inflexionPoints,
+					media.InflexionPointPX,
+				)
 			}
 		}
 	}
@@ -63,18 +69,21 @@ func (page CSSPage) GetCSS() string {
 
 	cssResponsive := make([]string, 0)
 
-	for i, point := range inflexionPoints {
+	for ix, point := range inflexionPoints {
 		cssRules := cssResponsiveMap[point]
 		sort.Strings(cssRules)
 		css := strings.Join(cssRules, "\n")
 		mediaQuery := "@media (min-width: " + strconv.Itoa(int(point)) + "px)"
 
-		if i < len(inflexionPoints)-1 {
-			nextPoint := inflexionPoints[i+1]
+		if ix < len(inflexionPoints)-1 {
+			nextPoint := inflexionPoints[ix+1]
 			mediaQuery = mediaQuery + " and (max-width: " + strconv.Itoa(int(nextPoint)-1) + "px)"
 		}
 
-		cssResponsive = append(cssResponsive, mediaQuery+" {\n"+css+"\n}")
+		cssResponsive = append(
+			cssResponsive,
+			mediaQuery+" {\n"+css+"\n}",
+		)
 	}
 
 	allCSS := strings.Join(cssCommon, "\n")
@@ -83,6 +92,7 @@ func (page CSSPage) GetCSS() string {
 		if allCSS != "" {
 			allCSS = allCSS + "\n"
 		}
+
 		allCSS = allCSS + strings.Join(cssResponsive, "\n")
 	}
 
