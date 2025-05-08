@@ -23,10 +23,10 @@ func TestOneElementCSSPage(t *testing.T) {
 			"",
 		},
 		{
-			"2. CSS common only",
+			"2. CSS common only with blank added for testing the CSS normalization",
 			func() *CSSElement {
 				return &CSSElement{
-					CSSAllMedias: "body{margin:0;}",
+					CSSAllMedias: " body{margin:0;}",
 				}
 			},
 			"body{margin:0;}",
@@ -93,14 +93,18 @@ func TestOneElementCSSPage(t *testing.T) {
 					&tt.input: true,
 				}
 
+				output := NormalizeCSS(
+					page.GetCSSAccurate(),
+				)
+
 				require.Equal(t,
 					tt.want,
-					page.GetCSSAccurate(),
+					output,
 
 					fmt.Sprintf(
 						"GetCSS() = %v, want %v",
 
-						page.GetCSSAccurate(),
+						output,
 						tt.want,
 					),
 				)

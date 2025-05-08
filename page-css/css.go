@@ -40,6 +40,7 @@ func NewCSSPage(css ...func() *CSSElement) CSSPage {
 	return result
 }
 
+// TODO: add tests that would highlight trade offs compared to accurate call.
 func (page CSSPage) GetCSSFast() string {
 	cssCommon := make([]string, 0)
 	cssResponsiveMap := make(map[uint16][]string)
@@ -279,8 +280,34 @@ func (page CSSPage) GetCSSAccurate() string {
 	return builder.String()
 }
 
-func (page CSSPage) GetCSSTo(w io.Writer) (int, error) {
+func (page CSSPage) GetCSSAccurateTo(w io.Writer) (int, error) {
 	return w.Write(
 		[]byte(page.GetCSSAccurate()),
+	)
+}
+
+func (page CSSPage) GetNormalizedCSSAccurateTo(w io.Writer) (int, error) {
+	return w.Write(
+		[]byte(
+			NormalizeCSS(
+				page.GetCSSAccurate(),
+			),
+		),
+	)
+}
+
+func (page CSSPage) GetCSSFastTo(w io.Writer) (int, error) {
+	return w.Write(
+		[]byte(page.GetCSSFast()),
+	)
+}
+
+func (page CSSPage) GetNormalizedCSSFastTo(w io.Writer) (int, error) {
+	return w.Write(
+		[]byte(
+			NormalizeCSS(
+				page.GetCSSFast(),
+			),
+		),
 	)
 }
