@@ -49,7 +49,10 @@ func (page CSSPage) GetCSSFast() string {
 		element := (*cssFunc)()
 
 		if element.CSSAllMedias != "" {
-			cssCommon = append(cssCommon, element.CSSAllMedias)
+			cssCommon = append(
+				cssCommon,
+				element.CSSAllMedias,
+			)
 		}
 
 		for _, media := range element.CSSResponsive {
@@ -133,7 +136,6 @@ func (page CSSPage) GetCSSAccurate() string {
 
 			if _, exists := cssResponsiveMap[media.InflexionPointPX]; !exists {
 				cssResponsiveMap[media.InflexionPointPX] = make(map[string]map[string]string)
-
 				inflexionPoints = append(
 					inflexionPoints,
 					media.InflexionPointPX,
@@ -147,13 +149,13 @@ func (page CSSPage) GetCSSAccurate() string {
 
 			selector := strings.TrimSpace(parts[0])
 			properties := strings.TrimRight(strings.TrimSpace(parts[1]), "}")
-			propertyPairs := strings.Split(properties, ";")
+			propPairs := strings.Split(properties, ";")
 
 			if _, exists := cssResponsiveMap[media.InflexionPointPX][selector]; !exists {
 				cssResponsiveMap[media.InflexionPointPX][selector] = make(map[string]string)
 			}
 
-			for _, pair := range propertyPairs {
+			for _, pair := range propPairs {
 				pair = strings.TrimSpace(pair)
 				if len(pair) == 0 {
 					continue
@@ -176,25 +178,9 @@ func (page CSSPage) GetCSSAccurate() string {
 	var builder strings.Builder
 
 	for ix, point := range inflexionPoints {
-		// Collect rules for this media query: prioritize current point, then higher points
 		ruleMap := make(map[string]map[string]string)
 
-		// First, add rules from higher points (in reverse order to prioritize later points)
-		for i := len(inflexionPoints) - 1; i > ix; i-- {
-			p := inflexionPoints[i]
-
-			for selector, props := range cssResponsiveMap[p] {
-				if _, exists := ruleMap[selector]; !exists {
-					ruleMap[selector] = make(map[string]string)
-				}
-
-				for prop, rule := range props {
-					ruleMap[selector][prop] = rule
-				}
-			}
-		}
-
-		// Then, add rules from current point (overrides higher points)
+		// Only include rules from the current point
 		for selector, props := range cssResponsiveMap[point] {
 			if _, exists := ruleMap[selector]; !exists {
 				ruleMap[selector] = make(map[string]string)
@@ -209,17 +195,15 @@ func (page CSSPage) GetCSSAccurate() string {
 		rules := make([]string, 0)
 		seen := make(map[string]bool)
 
-		//for i := len(cssFuncs) - 1; i >= 0; i-- { // Reverse to prioritize later functions
-		for i := range len(cssFuncs) {
+		for i := len(cssFuncs) - 1; i >= 0; i-- {
 			cssFunc := cssFuncs[i]
-
 			element := cssFunc()
 			if element == nil {
 				continue
 			}
 
 			for _, media := range element.CSSResponsive {
-				if media.InflexionPointPX < point {
+				if media.InflexionPointPX != point {
 					continue
 				}
 
@@ -246,7 +230,6 @@ func (page CSSPage) GetCSSAccurate() string {
 					property := strings.TrimSpace(propParts[0])
 					if ruleMap[selector][property] == media.CSS && !seen[media.CSS] {
 						seen[media.CSS] = true
-
 						rules = append(
 							rules,
 							media.CSS,
@@ -268,7 +251,6 @@ func (page CSSPage) GetCSSAccurate() string {
 
 		if ix < len(inflexionPoints)-1 {
 			nextPoint := inflexionPoints[ix+1]
-
 			builder.WriteString(" and (max-width: ")
 			builder.WriteString(strconv.Itoa(int(nextPoint) - 1))
 			builder.WriteString("px)")
@@ -285,7 +267,6 @@ func (page CSSPage) GetCSSAccurate() string {
 
 	for i, css := range cssCommon {
 		builder.WriteString(css)
-
 		if i < len(cssCommon)-1 || len(cssResponsive) > 0 {
 			builder.WriteString("\n")
 		}

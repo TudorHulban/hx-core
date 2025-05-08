@@ -2,6 +2,7 @@ package pagecss
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	hxhelpers "github.com/TudorHulban/hx-core/helpers"
@@ -109,12 +110,17 @@ func TestOneElementCSSPage(t *testing.T) {
 }
 
 func TestTwoElementsCSSPage(t *testing.T) {
+	type contains struct {
+		elements []string
+		inPart   int
+	}
+
 	tests := []struct {
-		name        string
-		input1      CSS
-		input2      CSS
-		want        string
-		butContains []string
+		name     string
+		input1   CSS
+		input2   CSS
+		want     string
+		contains contains
 	}{
 		{
 			"1. One CSS empty",
@@ -127,7 +133,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 				}
 			},
 			"body{}",
-			nil,
+			contains{},
 		},
 		{
 			"2. CSS common and responsive",
@@ -147,7 +153,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 				}
 			},
 			"body{margin:0;}\n@media (min-width: 768px) {\nbody{padding:0;}\n}",
-			nil,
+			contains{},
 		},
 		{
 			"3. CSS mixt with same inflexion point",
@@ -172,10 +178,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 				}
 			},
 			"@media (min-width: 768px) {\nbody{padding:0;}\nbody{margin:0;}\n}",
-			[]string{
-				"margin:0",
-				"padding:0",
-			},
+			contains{},
 		},
 		{
 			"4. CSS mixt with one lower inflexion point",
@@ -205,10 +208,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 				}
 			},
 			"body{color:white;}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\nbody{margin:0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}",
-			[]string{
-				"margin:0",
-				"padding:0",
-			},
+			contains{},
 		},
 		{
 			"5. CSS mixt with one higher inflexion point",
@@ -237,8 +237,8 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"body{color:white;}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\n}\n@media (min-width: 1366px) {\nbody{margin:0;}\nbody{margin: 5;}\n}",
-			nil,
+			"body{color:white;}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}",
+			contains{},
 		},
 		{
 			"6. CSS mixt many inflexion points",
@@ -272,7 +272,13 @@ func TestTwoElementsCSSPage(t *testing.T) {
 				}
 			},
 			"body{color:white;}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{margin:0;}\nbody{padding:0;}\n}\n@media (min-width: 1366px) and (max-width: 1899px) {\nbody{margin: 5;}\n}\n@media (min-width: 1900px) {\nbody{margin: 15;}\n}",
-			nil,
+			contains{
+				elements: []string{
+					"margin:0",
+					"padding:0",
+				},
+				inPart: 1,
+			},
 		},
 	}
 
@@ -297,7 +303,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					return
 				}
 
-				if len(tt.butContains) == 0 {
+				if len(tt.contains.elements) == 0 {
 					fmt.Printf(
 						"want:\n%s\n",
 						tt.want,
@@ -306,13 +312,22 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					t.FailNow()
 				}
 
+				outputParts := strings.Split(output, "@media")
+
 				hxhelpers.ForEachTest(
 					t,
-					tt.butContains,
+					tt.contains.elements,
 					func(value string, t *testing.T) {
 						require.Contains(t,
-							output,
+							outputParts[tt.contains.inPart],
 							value,
+
+							fmt.Sprintf(
+								"could not find '%s' in '%s'",
+
+								value,
+								outputParts[tt.contains.inPart],
+							),
 						)
 					},
 				)
