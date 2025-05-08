@@ -160,7 +160,7 @@ func TestTwoElementsCSSPage(t *testing.T) {
 			contains{},
 		},
 		{
-			"3. CSS mixt with same inflexion point",
+			"3a. CSS mixt with same inflexion point - mobile first",
 			func() *CSSElement {
 				return &CSSElement{
 					CSSResponsive: []CSSMedia{
@@ -182,7 +182,48 @@ func TestTwoElementsCSSPage(t *testing.T) {
 				}
 			},
 			"@media (min-width: 768px) {\nbody{padding:0;}\nbody{margin:0;}\n}",
-			contains{},
+			contains{
+				elements: []string{
+					"margin:0",
+					"padding:0",
+				},
+				inPart: 1,
+			},
+		},
+		{
+			"3b. CSS mixt with same inflexion point - desktop first",
+			func() *CSSElement {
+				return &CSSElement{
+					DesktopFirst: true,
+
+					CSSResponsive: []CSSMedia{
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{margin:0;}",
+						},
+					},
+				}
+			},
+			func() *CSSElement {
+				return &CSSElement{
+					DesktopFirst: true,
+
+					CSSResponsive: []CSSMedia{
+						{
+							InflexionPointPX: 768,
+							CSS:              "body{padding:0;}",
+						},
+					},
+				}
+			},
+			"@media (min-width: 768px) {\nbody{padding:0;}\nbody{margin:0;}\n}",
+			contains{
+				elements: []string{
+					"margin:0",
+					"padding:0",
+				},
+				inPart: 1,
+			},
 		},
 		{
 			"4. CSS mixt with one lower inflexion point",

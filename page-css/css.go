@@ -16,6 +16,8 @@ type CSSMedia struct {
 type CSSElement struct {
 	CSSAllMedias  string
 	CSSResponsive []CSSMedia
+
+	DesktopFirst bool
 }
 
 type CSS func() *CSSElement
@@ -109,13 +111,16 @@ func (page CSSPage) GetCSSAccurate() string {
 	cssFuncs := make([]CSS, 0, len(page))
 	for cssFunc := range page {
 		f := (*cssFunc)
-
-		cssFuncs = append(cssFuncs, f)
+		cssFuncs = append(
+			cssFuncs,
+			f,
+		)
 	}
 
 	cssCommon := make([]string, 0, len(page))
 	cssResponsiveMap := make(map[uint16]map[string]map[string]string)
 	inflexionPoints := make([]uint16, 0, len(page))
+	desktopFirst := false
 
 	for _, cssFunc := range cssFuncs {
 		cssElement := cssFunc()
@@ -128,6 +133,10 @@ func (page CSSPage) GetCSSAccurate() string {
 				cssCommon,
 				cssElement.CSSAllMedias,
 			)
+		}
+
+		if cssElement.DesktopFirst {
+			desktopFirst = true
 		}
 
 		for _, media := range cssElement.CSSResponsive {
@@ -186,7 +195,6 @@ func (page CSSPage) GetCSSAccurate() string {
 			if _, exists := ruleMap[selector]; !exists {
 				ruleMap[selector] = make(map[string]string)
 			}
-
 			for prop, rule := range props {
 				ruleMap[selector][prop] = rule
 			}
@@ -246,11 +254,15 @@ func (page CSSPage) GetCSSAccurate() string {
 		}
 
 		builder.Reset()
-		builder.WriteString("@media (min-width: ")
+		if len(inflexionPoints) == 1 && desktopFirst {
+			builder.WriteString("@media (max-width: ")
+		} else {
+			builder.WriteString("@media (min-width: ")
+		}
 		builder.WriteString(strconv.Itoa(int(point)))
 		builder.WriteString("px)")
 
-		if ix < len(inflexionPoints)-1 {
+		if len(inflexionPoints) > 1 && ix < len(inflexionPoints)-1 {
 			nextPoint := inflexionPoints[ix+1]
 			builder.WriteString(" and (max-width: ")
 			builder.WriteString(strconv.Itoa(int(nextPoint) - 1))
@@ -261,7 +273,10 @@ func (page CSSPage) GetCSSAccurate() string {
 		builder.WriteString(css)
 		builder.WriteString("\n}")
 
-		cssResponsive = append(cssResponsive, builder.String())
+		cssResponsive = append(
+			cssResponsive,
+			builder.String(),
+		)
 	}
 
 	builder.Reset()
