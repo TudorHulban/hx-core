@@ -3,6 +3,7 @@ package pagecss
 import (
 	"io"
 	"slices"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -19,6 +20,8 @@ type CSSElement struct {
 
 type CSS func() *CSSElement
 
+// CSSPage uses map as several instances of same component can be used
+// but only one CSS function is needed.
 type CSSPage map[*CSS]bool
 
 func NewCSSPage(css ...func() *CSSElement) CSSPage {
@@ -37,72 +40,68 @@ func NewCSSPage(css ...func() *CSSElement) CSSPage {
 	return result
 }
 
-// func (page CSSPage) GetCSS() string {
-// 	cssCommon := make([]string, 0)
-// 	cssResponsiveMap := make(map[uint16][]string)
-// 	inflexionPoints := make([]uint16, 0)
+func (page CSSPage) GetCSSFast() string {
+	cssCommon := make([]string, 0)
+	cssResponsiveMap := make(map[uint16][]string)
+	inflexionPoints := make([]uint16, 0)
 
-// 	for cssFunc := range page {
-// 		element := (*cssFunc)()
+	for cssFunc := range page {
+		element := (*cssFunc)()
 
-// 		if element.CSSAllMedias != "" {
-// 			cssCommon = append(cssCommon, element.CSSAllMedias)
-// 		}
+		if element.CSSAllMedias != "" {
+			cssCommon = append(cssCommon, element.CSSAllMedias)
+		}
 
-// 		for _, media := range element.CSSResponsive {
-// 			cssResponsiveMap[media.InflexionPointPX] = append(
-// 				cssResponsiveMap[media.InflexionPointPX],
-// 				media.CSS,
-// 			)
+		for _, media := range element.CSSResponsive {
+			cssResponsiveMap[media.InflexionPointPX] = append(
+				cssResponsiveMap[media.InflexionPointPX],
+				media.CSS,
+			)
 
-// 			if !slices.Contains(inflexionPoints, media.InflexionPointPX) {
-// 				inflexionPoints = append(
-// 					inflexionPoints,
-// 					media.InflexionPointPX,
-// 				)
-// 			}
-// 		}
-// 	}
+			if !slices.Contains(inflexionPoints, media.InflexionPointPX) {
+				inflexionPoints = append(
+					inflexionPoints,
+					media.InflexionPointPX,
+				)
+			}
+		}
+	}
 
-// 	slices.Sort(inflexionPoints)
+	slices.Sort(inflexionPoints)
 
-// 	cssResponsive := make([]string, 0)
+	cssResponsive := make([]string, 0)
 
-// 	for ix, point := range inflexionPoints {
-// 		cssRules := cssResponsiveMap[point]
-// 		sort.Strings(cssRules)
-// 		css := strings.Join(cssRules, "\n")
-// 		mediaQuery := "@media (min-width: " + strconv.Itoa(int(point)) + "px)"
+	for ix, point := range inflexionPoints {
+		cssRules := cssResponsiveMap[point]
+		sort.Strings(cssRules)
+		css := strings.Join(cssRules, "\n")
+		mediaQuery := "@media (min-width: " + strconv.Itoa(int(point)) + "px)"
 
-// 		if ix < len(inflexionPoints)-1 {
-// 			nextPoint := inflexionPoints[ix+1]
-// 			mediaQuery = mediaQuery + " and (max-width: " + strconv.Itoa(int(nextPoint)-1) + "px)"
-// 		}
+		if ix < len(inflexionPoints)-1 {
+			nextPoint := inflexionPoints[ix+1]
+			mediaQuery = mediaQuery + " and (max-width: " + strconv.Itoa(int(nextPoint)-1) + "px)"
+		}
 
-// 		cssResponsive = append(
-// 			cssResponsive,
-// 			mediaQuery+" {\n"+css+"\n}",
-// 		)
-// 	}
+		cssResponsive = append(
+			cssResponsive,
+			mediaQuery+" {\n"+css+"\n}",
+		)
+	}
 
-// 	allCSS := strings.Join(cssCommon, "\n")
+	allCSS := strings.Join(cssCommon, "\n")
 
-// 	if len(cssResponsive) > 0 {
-// 		if allCSS != "" {
-// 			allCSS = allCSS + "\n"
-// 		}
+	if len(cssResponsive) > 0 {
+		if allCSS != "" {
+			allCSS = allCSS + "\n"
+		}
 
-// 		allCSS = allCSS + strings.Join(cssResponsive, "\n")
-// 	}
+		allCSS = allCSS + strings.Join(cssResponsive, "\n")
+	}
 
-// 	return allCSS
-// }
+	return allCSS
+}
 
-func (page CSSPage) GetCSS() string {
-	cssCommon := make([]string, 0, len(page))
-	cssResponsiveMap := make(map[uint16]map[string]map[string]string)
-	inflexionPoints := make([]uint16, 0, len(page))
-
+func (page CSSPage) GetCSSAccurate() string {
 	cssFuncs := make([]CSS, 0, len(page))
 	for cssFunc := range page {
 		f := (*cssFunc)
@@ -110,21 +109,25 @@ func (page CSSPage) GetCSS() string {
 		cssFuncs = append(cssFuncs, f)
 	}
 
+	cssCommon := make([]string, 0, len(page))
+	cssResponsiveMap := make(map[uint16]map[string]map[string]string)
+	inflexionPoints := make([]uint16, 0, len(page))
+
 	for _, cssFunc := range cssFuncs {
-		element := cssFunc()
-		if element == nil {
+		cssElement := cssFunc()
+		if cssElement == nil {
 			continue
 		}
 
-		if element.CSSAllMedias != "" {
+		if len(cssElement.CSSAllMedias) != 0 {
 			cssCommon = append(
 				cssCommon,
-				element.CSSAllMedias,
+				cssElement.CSSAllMedias,
 			)
 		}
 
-		for _, media := range element.CSSResponsive {
-			if media.CSS == "" {
+		for _, media := range cssElement.CSSResponsive {
+			if len(media.CSS) == 0 {
 				continue
 			}
 
@@ -144,15 +147,15 @@ func (page CSSPage) GetCSS() string {
 
 			selector := strings.TrimSpace(parts[0])
 			properties := strings.TrimRight(strings.TrimSpace(parts[1]), "}")
-			propPairs := strings.Split(properties, ";")
+			propertyPairs := strings.Split(properties, ";")
 
 			if _, exists := cssResponsiveMap[media.InflexionPointPX][selector]; !exists {
 				cssResponsiveMap[media.InflexionPointPX][selector] = make(map[string]string)
 			}
 
-			for _, pair := range propPairs {
+			for _, pair := range propertyPairs {
 				pair = strings.TrimSpace(pair)
-				if pair == "" {
+				if len(pair) == 0 {
 					continue
 				}
 
@@ -206,7 +209,8 @@ func (page CSSPage) GetCSS() string {
 		rules := make([]string, 0)
 		seen := make(map[string]bool)
 
-		for i := len(cssFuncs) - 1; i >= 0; i-- { // Reverse to prioritize later functions
+		//for i := len(cssFuncs) - 1; i >= 0; i-- { // Reverse to prioritize later functions
+		for i := range len(cssFuncs) {
 			cssFunc := cssFuncs[i]
 
 			element := cssFunc()
@@ -230,7 +234,7 @@ func (page CSSPage) GetCSS() string {
 
 				for _, pair := range propPairs {
 					pair = strings.TrimSpace(pair)
-					if pair == "" {
+					if len(pair) == 0 {
 						continue
 					}
 
@@ -242,14 +246,18 @@ func (page CSSPage) GetCSS() string {
 					property := strings.TrimSpace(propParts[0])
 					if ruleMap[selector][property] == media.CSS && !seen[media.CSS] {
 						seen[media.CSS] = true
-						rules = append(rules, media.CSS)
+
+						rules = append(
+							rules,
+							media.CSS,
+						)
 					}
 				}
 			}
 		}
 
 		css := strings.Join(rules, "\n")
-		if css == "" {
+		if len(css) == 0 {
 			continue
 		}
 
@@ -292,6 +300,6 @@ func (page CSSPage) GetCSS() string {
 
 func (page CSSPage) GetCSSTo(w io.Writer) (int, error) {
 	return w.Write(
-		[]byte(page.GetCSS()),
+		[]byte(page.GetCSSAccurate()),
 	)
 }

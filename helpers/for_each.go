@@ -1,5 +1,7 @@
 package hxhelpers
 
+import "testing"
+
 func ForEachValue[T, R any](values []T, process func(T) R) []R {
 	result := make([]R, len(values), len(values))
 
@@ -8,6 +10,12 @@ func ForEachValue[T, R any](values []T, process func(T) R) []R {
 	}
 
 	return result
+}
+
+func ForEachTest[T any](t *testing.T, values []T, process func(T, *testing.T)) {
+	for _, value := range values {
+		process(value, t)
+	}
 }
 
 type ParamsForEachValueWAddition[T, R any] struct {

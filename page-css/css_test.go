@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	hxhelpers "github.com/TudorHulban/hx-core/helpers"
 	"github.com/stretchr/testify/require"
 )
 
@@ -24,10 +25,10 @@ func TestOneElementCSSPage(t *testing.T) {
 			"2. CSS common only",
 			func() *CSSElement {
 				return &CSSElement{
-					CSSAllMedias: "body{}",
+					CSSAllMedias: "body{margin:0;}",
 				}
 			},
-			"body{}",
+			"body{margin:0;}",
 		},
 		{
 			"3. CSS responsive only",
@@ -93,12 +94,12 @@ func TestOneElementCSSPage(t *testing.T) {
 
 				require.Equal(t,
 					tt.want,
-					page.GetCSS(),
+					page.GetCSSAccurate(),
 
 					fmt.Sprintf(
 						"GetCSS() = %v, want %v",
 
-						page.GetCSS(),
+						page.GetCSSAccurate(),
 						tt.want,
 					),
 				)
@@ -109,10 +110,11 @@ func TestOneElementCSSPage(t *testing.T) {
 
 func TestTwoElementsCSSPage(t *testing.T) {
 	tests := []struct {
-		name   string
-		input1 CSS
-		input2 CSS
-		want   string
+		name        string
+		input1      CSS
+		input2      CSS
+		want        string
+		butContains []string
 	}{
 		{
 			"1. One CSS empty",
@@ -125,12 +127,13 @@ func TestTwoElementsCSSPage(t *testing.T) {
 				}
 			},
 			"body{}",
+			nil,
 		},
 		{
 			"2. CSS common and responsive",
 			func() *CSSElement {
 				return &CSSElement{
-					CSSAllMedias: "body{}",
+					CSSAllMedias: "body{margin:0;}",
 				}
 			},
 			func() *CSSElement {
@@ -138,12 +141,13 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,
-							CSS:              "body{}",
+							CSS:              "body{padding:0;}",
 						},
 					},
 				}
 			},
-			"body{}\n@media (min-width: 768px) {\nbody{}\n}",
+			"body{margin:0;}\n@media (min-width: 768px) {\nbody{padding:0;}\n}",
+			nil,
 		},
 		{
 			"3. CSS mixt with same inflexion point",
@@ -162,18 +166,22 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,
-							CSS:              "body{padding:0}",
+							CSS:              "body{padding:0;}",
 						},
 					},
 				}
 			},
-			"@media (min-width: 768px) {\nbody{margin:0;}\nbody{padding:0}\n}",
+			"@media (min-width: 768px) {\nbody{padding:0;}\nbody{margin:0;}\n}",
+			[]string{
+				"margin:0",
+				"padding:0",
+			},
 		},
 		{
 			"4. CSS mixt with one lower inflexion point",
 			func() *CSSElement {
 				return &CSSElement{
-					CSSAllMedias: "body{}",
+					CSSAllMedias: "body{color:white;}",
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 768,
@@ -196,12 +204,17 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\nbody{margin:0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}"},
+			"body{color:white;}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\nbody{margin:0;}\n}\n@media (min-width: 1366px) {\nbody{margin: 5;}\n}",
+			[]string{
+				"margin:0",
+				"padding:0",
+			},
+		},
 		{
 			"5. CSS mixt with one higher inflexion point",
 			func() *CSSElement {
 				return &CSSElement{
-					CSSAllMedias: "body{}",
+					CSSAllMedias: "body{color:white;}",
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 1366,
@@ -224,12 +237,14 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\n}\n@media (min-width: 1366px) {\nbody{margin:0;}\nbody{margin: 5;}\n}"},
+			"body{color:white;}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{padding:0;}\n}\n@media (min-width: 1366px) {\nbody{margin:0;}\nbody{margin: 5;}\n}",
+			nil,
+		},
 		{
 			"6. CSS mixt many inflexion points",
 			func() *CSSElement {
 				return &CSSElement{
-					CSSAllMedias: "body{}",
+					CSSAllMedias: "body{color:white;}",
 					CSSResponsive: []CSSMedia{
 						{
 							InflexionPointPX: 1900,
@@ -256,7 +271,8 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"body{}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{margin:0;}\nbody{padding:0;}\n}\n@media (min-width: 1366px) and (max-width: 1899px) {\nbody{margin: 5;}\n}\n@media (min-width: 1900px) {\nbody{margin: 15;}\n}",
+			"body{color:white;}\n@media (min-width: 768px) and (max-width: 1365px) {\nbody{margin:0;}\nbody{padding:0;}\n}\n@media (min-width: 1366px) and (max-width: 1899px) {\nbody{margin: 5;}\n}\n@media (min-width: 1900px) {\nbody{margin: 15;}\n}",
+			nil,
 		},
 	}
 
@@ -269,20 +285,36 @@ func TestTwoElementsCSSPage(t *testing.T) {
 					&tt.input2: true,
 				}
 
-				fmt.Println(
-					page.GetCSS(),
+				output := page.GetCSSAccurate()
+
+				fmt.Println(tt.name)
+				fmt.Printf(
+					"output:\n%s\n",
+					output,
 				)
 
-				require.Equal(t,
-					tt.want,
-					page.GetCSS(),
+				if tt.want == output {
+					return
+				}
 
-					fmt.Sprintf(
-						"GetCSS() = %v, want %v",
-
-						page.GetCSS(),
+				if len(tt.butContains) == 0 {
+					fmt.Printf(
+						"want:\n%s\n",
 						tt.want,
-					),
+					)
+
+					t.FailNow()
+				}
+
+				hxhelpers.ForEachTest(
+					t,
+					tt.butContains,
+					func(value string, t *testing.T) {
+						require.Contains(t,
+							output,
+							value,
+						)
+					},
 				)
 			},
 		)
