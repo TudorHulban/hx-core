@@ -301,12 +301,20 @@ func (page CSSPage) GetCSSAccurateTo(w io.Writer) (int, error) {
 	)
 }
 
-func (page CSSPage) GetNormalizedCSSAccurateTo(w io.Writer) (int, error) {
+func (page CSSPage) GetNormalizedCSSAccurateTo(w io.Writer, numberSpaces uint8) (int, error) {
+	css, errNormalize := NormalizeCSS(
+		&ParamsNormalizeCSS{
+			CSS:             page.GetCSSAccurate(),
+			CSSNumberSpaces: numberSpaces,
+		},
+	)
+	if errNormalize != nil {
+		return 0, errNormalize
+	}
+
 	return w.Write(
 		[]byte(
-			NormalizeCSS(
-				page.GetCSSAccurate(),
-			),
+			css,
 		),
 	)
 }
@@ -317,12 +325,20 @@ func (page CSSPage) GetCSSFastTo(w io.Writer) (int, error) {
 	)
 }
 
-func (page CSSPage) GetNormalizedCSSFastTo(w io.Writer) (int, error) {
+func (page CSSPage) GetNormalizedCSSFastTo(w io.Writer, numberSpaces uint8) (int, error) {
+	css, errNormalize := NormalizeCSS(
+		&ParamsNormalizeCSS{
+			CSS:             page.GetCSSFast(),
+			CSSNumberSpaces: numberSpaces,
+		},
+	)
+	if errNormalize != nil {
+		return 0, errNormalize
+	}
+
 	return w.Write(
 		[]byte(
-			NormalizeCSS(
-				page.GetCSSFast(),
-			),
+			css,
 		),
 	)
 }

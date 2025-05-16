@@ -93,9 +93,13 @@ func TestOneElementCSSPage(t *testing.T) {
 					&tt.input: true,
 				}
 
-				output := NormalizeCSS(
-					page.GetCSSAccurate(),
+				output, errNormalize := NormalizeCSS(
+					&ParamsNormalizeCSS{
+						CSS:             page.GetCSSAccurate(),
+						CSSNumberSpaces: 5,
+					},
 				)
+				require.NoError(t, errNormalize)
 
 				require.Equal(t,
 					tt.want,
