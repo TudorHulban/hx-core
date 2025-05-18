@@ -301,11 +301,31 @@ func (page CSSPage) GetCSSAccurateTo(w io.Writer) (int, error) {
 	)
 }
 
-func (page CSSPage) GetNormalizedCSSAccurateTo(w io.Writer, numberSpaces uint8) (int, error) {
-	css, errNormalize := NormalizeCSS(
-		&ParamsNormalizeCSS{
-			CSS:             page.GetCSSAccurate(),
-			CSSNumberSpaces: numberSpaces,
+func (page CSSPage) GetCSSAccurateBeautifiedTo(w io.Writer, params *ParamsSpaces) (int, error) {
+	css, errNormalize := BeautifyCSS(
+		&ParamsUpdateCSS{
+			CSS: page.GetCSSAccurate(),
+
+			ParamsSpaces: *params,
+		},
+	)
+	if errNormalize != nil {
+		return 0, errNormalize
+	}
+
+	return w.Write(
+		[]byte(
+			css,
+		),
+	)
+}
+
+func (page CSSPage) GetCSSAccurateMinifiedTo(w io.Writer, params *ParamsSpaces) (int, error) {
+	css, errNormalize := MinifyCSS(
+		&ParamsUpdateCSS{
+			CSS: page.GetCSSAccurate(),
+
+			ParamsSpaces: *params,
 		},
 	)
 	if errNormalize != nil {
@@ -325,11 +345,31 @@ func (page CSSPage) GetCSSFastTo(w io.Writer) (int, error) {
 	)
 }
 
-func (page CSSPage) GetNormalizedCSSFastTo(w io.Writer, numberSpaces uint8) (int, error) {
-	css, errNormalize := NormalizeCSS(
-		&ParamsNormalizeCSS{
-			CSS:             page.GetCSSFast(),
-			CSSNumberSpaces: numberSpaces,
+func (page CSSPage) GetCSSFastBeautifiedTo(w io.Writer, params *ParamsSpaces) (int, error) {
+	css, errNormalize := BeautifyCSS(
+		&ParamsUpdateCSS{
+			CSS: page.GetCSSFast(),
+
+			ParamsSpaces: *params,
+		},
+	)
+	if errNormalize != nil {
+		return 0, errNormalize
+	}
+
+	return w.Write(
+		[]byte(
+			css,
+		),
+	)
+}
+
+func (page CSSPage) GetCSSFastMinifiedTo(w io.Writer, params *ParamsSpaces) (int, error) {
+	css, errNormalize := MinifyCSS(
+		&ParamsUpdateCSS{
+			CSS: page.GetCSSFast(),
+
+			ParamsSpaces: *params,
 		},
 	)
 	if errNormalize != nil {
