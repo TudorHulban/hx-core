@@ -7,35 +7,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestSpecialCSS(t *testing.T) {
-	t.Run(
-		"1. moz-focus-inner",
-		func(t *testing.T) {
-			normalized, errNormalization := BeautifyCSS(
-				&ParamsUpdateCSS{
-					CSS: `
-button::-moz-focus-inner, .mpa-employees-list-shortcode .entry-link::-moz-focus-inner,
-.wp-block-getwid-post-carousel .entry-link::-moz-focus-inner,
-[type="button"]::-moz-focus-inner,
-[type="reset"]::-moz-focus-inner,
-[type="submit"]::-moz-focus-inner {
-	border-style: none;
-	padding: 0;
-}
-	`,
-					ParamsSpaces: ParamsSpaces{
-						NumberSpaces:              5,
-						IncrementWithNumberSpaces: 2,
-					},
-				},
-			)
-			require.NoError(t, errNormalization)
-
-			fmt.Println(normalized)
-		},
-	)
-}
-
 func TestBeautifyCSS(t *testing.T) {
 	t.Run(
 		"1. simple CSS",
