@@ -1,7 +1,7 @@
 package pagecss
 
 import (
-	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -31,7 +31,20 @@ font-size: 45px;
 			)
 			require.NoError(t, errNormalization)
 
-			fmt.Println(normalized)
+			t.Log(normalized)
+
+			expected := `
+h1 {
+  font-size:  75px;
+  line-height:  1.15;
+}
+
+h2 {
+  font-size:  45px;
+}
+			`
+
+			require.Equal(t, strings.TrimSpace(expected), strings.TrimSpace(normalized))
 		},
 	)
 
@@ -53,9 +66,20 @@ font-size: 45px;
 					},
 				},
 			)
-
 			require.NoError(t, errNormalization)
-			fmt.Println(normalized)
+
+			t.Log(normalized)
+
+			expected := `
+.parent {
+  .child{
+    property:  value;
+  }
+}
+`
+
+			require.Equal(t, strings.TrimSpace(expected), strings.TrimSpace(normalized))
+
 		},
 	)
 
@@ -85,7 +109,25 @@ property: value; /* This line might not be indented */
 			)
 
 			require.NoError(t, errNormalization)
-			fmt.Println(normalized)
+
+			t.Log(normalized)
+
+			expected := `
+/* Input CSS */
+.class {
+  /* This comment contains a closing brace } that confuses the logic */
+  property:  value;
+}
+
+/* Output using the provided logic */
+.class{
+  /* This comment contains a closing brace } that confuses the logic */
+  property:  value;
+  /* This line might not be indented */
+}
+			`
+
+			require.Equal(t, strings.TrimSpace(expected), strings.TrimSpace(normalized))
 		},
 	)
 }
@@ -114,7 +156,11 @@ font-size: 45px;
 			)
 			require.NoError(t, errNormalization)
 
-			fmt.Println(normalized)
+			t.Log(normalized)
+
+			expected := `h1{font-size:75px;line-height:1.15}h2{font-size:45px}`
+
+			require.Equal(t, strings.TrimSpace(expected), strings.TrimSpace(normalized))
 		},
 	)
 
@@ -138,7 +184,12 @@ font-size: 45px;
 			)
 
 			require.NoError(t, errNormalization)
-			fmt.Println(normalized)
+
+			t.Log(normalized)
+
+			expected := `.parent{.child{property:value}}`
+
+			require.Equal(t, strings.TrimSpace(expected), strings.TrimSpace(normalized))
 		},
 	)
 
@@ -168,7 +219,12 @@ property: value; /* This line might not be indented */
 			)
 
 			require.NoError(t, errNormalization)
-			fmt.Println(normalized)
+
+			t.Log(normalized)
+
+			expected := `.class{property:value}.class{property:value}`
+
+			require.Equal(t, strings.TrimSpace(expected), strings.TrimSpace(normalized))
 		},
 	)
 }

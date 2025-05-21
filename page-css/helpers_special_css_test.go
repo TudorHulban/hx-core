@@ -79,25 +79,26 @@ font-size :  75px;
 			require.NoError(t, errNormalization)
 
 			expected := `
-			@media (min-width: 768px){
-			  h1 {
-			    font-size :75px;
-			    line-height :1.15;
-			  }
-			  h2 {
-			    font-size :45px;
-			  }
-			  h3 {
-			    font-size :33px;
-			    line-height :1.25;
-			  }
-			  table th , table td {
-			    padding :18px20px;
-			  }
-			  #form-footer-info {
-			    flex-direction :column ;
-			  }
-			}`
+@media (min-width: 768px){
+  h1 {
+    font-size :75px;
+    line-height :1.15;
+  }
+  h2 {
+    font-size :45px;
+  }
+  h3 {
+    font-size :33px;
+    line-height :1.25;
+  }
+  table th , table td {
+    padding :18px20px;
+  }
+  #form-footer-info {
+    flex-direction :column ;
+  }
+}
+			`
 
 			fmt.Println(normalized)
 

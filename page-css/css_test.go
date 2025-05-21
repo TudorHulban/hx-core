@@ -29,7 +29,7 @@ func TestOneElementCSSPage(t *testing.T) {
 					CSSAllMedias: " body{margin:0;}",
 				}
 			},
-			"body{margin:0;}",
+			"body {\nmargin: 0;\n}\n\n",
 		},
 		{
 			"3. CSS responsive only",
@@ -43,7 +43,7 @@ func TestOneElementCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"@media (min-width: 768px) {\nbody{margin:0;}\n}",
+			"@media (min-width:  768px) {\nbody{\nmargin :0;\n}\n}\n\n",
 		},
 		{
 			"4. CSS common and responsive",
@@ -58,7 +58,7 @@ func TestOneElementCSSPage(t *testing.T) {
 					},
 				}
 			},
-			"body{}\n@media (min-width: 768px) {\nbody{margin: 0;}\n}",
+			"body {\n}\n\n\n@media (min-width:  768px) {\nbody{\nmargin :0;\n}\n}\n\n",
 		},
 		{
 			"5. Multiple inflexion points",
